@@ -15,14 +15,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from rest_framework import routers
+from rest_framework import routers, views
+from rest_framework.schemas import DefaultSchema
 from fude_app import views
+from rest_framework_simplejwt.views import TokenObtainPairView,TokenRefreshView
+
 
 router = routers.DefaultRouter()
 router.register(r'posts',views.PostView,'post')
+router.register(r'user',views.UserView,'user')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
-
-]
+    path('api/', include((router.urls,'django.contrib.auth.urls'),namespace='fude-api')),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh')
+  ]

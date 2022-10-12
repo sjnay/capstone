@@ -1,5 +1,6 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -10,9 +11,11 @@ class Post(models.Model):
     food_review = models.TextField(max_length=50)
     food_rating = models.PositiveIntegerField(default=0,validators=[MinValueValidator(1),MaxValueValidator(10) ])
     created_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
         return self.place_name
 
     class Meta:
-        ordering = ['created_at']
+        ordering = ['-created_at']
+

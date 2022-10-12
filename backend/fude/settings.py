@@ -42,9 +42,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders',
     'rest_framework',
-    'fude_app'
+    'corsheaders',
+    'fude_app',
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
@@ -129,6 +130,21 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+   'DEFAULT_AUTHENTICATION_CLASSES': (
+    
+    'rest_framework.authentication.SessionAuthentication',
+    'rest_framework.authentication.BasicAuthentication',
+    'rest_framework_simplejwt.authentication.JWTAuthentication', 
+),
+}
+
+LOGIN_REDIRECT_URL = 'api/'
+
 CORS_ORIGIN_WHITELIST = [
      'http://localhost:3000'
 ]
+
